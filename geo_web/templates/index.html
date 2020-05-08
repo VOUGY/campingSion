@@ -26,8 +26,24 @@
   {% leaflet_map "piscines" callback="main_map_init" %}
   <script type="text/javascript">
       function main_map_init (map, options) {
-        var dataurl = '{% url "swimmingpoolsjson" %}'
-        $.getJSON(dataurl, function(data) {
+          var trees = '{% url "treesjson" %}'
+        $.getJSON(trees, function(data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+          } );
+        var swimmingpools = '{% url "swimmingpoolsjson" %}'
+        $.getJSON(swimmingpools, function(data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+          } );
+        var locations = '{% url "locationsjson" %}'
+        $.getJSON(locations, function(data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+          } );
+        var campingareas = '{% url "campingareasjson" %}'
+        $.getJSON(campingareas, function(data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+          } );
+        var buildings = '{% url "buildingsjson" %}'
+        $.getJSON(buildings, function(data) {
             L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
           } );
       }
