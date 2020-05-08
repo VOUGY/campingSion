@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'leaflet',
-    'geoWeb'
+    'geo_web'
 ]
 
 MIDDLEWARE = [

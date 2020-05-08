@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.serializers import serialize
 from django.http import HttpResponse
-from .models import Piciine
+from .models import SwimmingPool
 
 
 def index(request):
@@ -9,7 +9,7 @@ def index(request):
 
 
 def piciinejson(request):
-    picine = Piciine.objects.all()
+    picine = SwimmingPool.objects.all()
     ser = serialize('geojson', picine, geometry_field='geom')
     return HttpResponse(ser)
 
