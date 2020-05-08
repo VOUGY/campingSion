@@ -9,22 +9,22 @@ class SwimmingPool(models.Model):
 class Location(models.Model):
     id_0 = models.PositiveIntegerField(primary_key=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
-    id = models.BigIntegerField()
+    id = models.BigIntegerField(null=True)
 
 
 class Tree(models.Model):
     id_0 = models.PositiveIntegerField(primary_key=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
-    id = models.BigIntegerField()
+    id = models.BigIntegerField(null=True)
 
 
 class CampingArea(models.Model):
     id_0 = models.PositiveIntegerField(primary_key=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
-    id = models.BigIntegerField()
+    id = models.BigIntegerField(null=True)
 
 
 class Building(models.Model):
     id_0 = models.PositiveIntegerField(primary_key=True)
     geom = models.MultiPolygonField(srid=4326, null=True)
-    id = models.BigIntegerField()
+    id = models.BigIntegerField(null=True)
