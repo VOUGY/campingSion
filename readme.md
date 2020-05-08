@@ -32,5 +32,5 @@ This documentation, takes into account that you have already created a virtualen
 2. Adapt `.env`
 3. Install libs `pip install -r requirements.txt`
 4. Apply django migration `python manage.py migrate`
-5. Populate DB `python manage.py loaddata ./data.json`
+5. Populate DB `python manage.py loaddata */fixtures/*.json`
 6. Start server `python manage.py runserver`
