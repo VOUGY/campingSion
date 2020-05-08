@@ -26,7 +26,7 @@
   {% leaflet_map "piscines" callback="main_map_init" %}
   <script type="text/javascript">
       function main_map_init (map, options) {
-        var dataurl = '{% url "piciinejson" %}'
+        var dataurl = '{% url "swimmingpoolsjson" %}'
         $.getJSON(dataurl, function(data) {
             L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
           } );

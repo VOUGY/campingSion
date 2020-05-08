@@ -8,9 +8,9 @@ def index(request):
     return render(request, 'index.html')
 
 
-def piciinejson(request):
-    picine = SwimmingPool.objects.all()
-    ser = serialize('geojson', picine, geometry_field='geom')
+def swimmingpoolsjson(request):
+    swimmingpools = SwimmingPool.objects.all()
+    ser = serialize('geojson', swimmingpools, geometry_field='geom')
     return HttpResponse(ser)
 
 

@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('piciine.json', views.piciinejson, name='piciinejson'),
+    path('/geojson/swimmingpools.json', views.swimmingpoolsjson, name='swimmingpoolsjson'),
 ]
