@@ -1,57 +1,79 @@
 {% load leaflet_tags %}
 <head>
-  {% leaflet_js %}
-  {% leaflet_css %}
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <style>
 
-    .leaflet-container {  /* all maps */
-        width:  100%;
-        height: 100%;
-    }
+        .leaflet-container { /* all maps */
+            width: 100%;
+            height: 100%;
+        }
 
-    #specialbigmap {
-        height: 800px;
-    }
+        #specialbigmap {
+            height: 800px;
+        }
 
-    /* Resize the "display_raw" textbox */
-    .django-leaflet-raw-textarea {
-        width: 100%;
-    }
+        /* Resize the "display_raw" textbox */
+        .django-leaflet-raw-textarea {
+            width: 100%;
+        }
 
-</style>
+    </style>
 </head>
 
 <body>
-  {% leaflet_map "piscines" callback="main_map_init" %}
-  <script type="text/javascript">
-      function main_map_init (map, options) {
-          var trees = '{% url "treesjson" %}'
-        $.getJSON(trees, function(data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
-        var swimmingpools = '{% url "swimmingpoolsjson" %}'
-        $.getJSON(swimmingpools, function(data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
-        var locations = '{% url "locationsjson" %}'
-        $.getJSON(locations, function(data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
-        var campingareas = '{% url "campingareasjson" %}'
-        $.getJSON(campingareas, function(data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
-        var buildings = '{% url "buildingsjson" %}'
-        $.getJSON(buildings, function(data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
-          } );
-      }
+{% leaflet_map "piscines" callback="main_map_init" %}
+<script type="text/javascript">
+    const treesLayer = new L.LayerGroup()
+    const swimmingpoolLayer = new L.layerGroup()
+    const locationsLayer = new L.LayerGroup()
+    const buildingLayer = new L.layerGroup()
 
-      function onEachFeature(feature, layer) {
+    const overlays = {
+        "Arbres": treesLayer,
+        "Piscine": swimmingpoolLayer,
+        "Emplacement": locationsLayer,
+        "Batiments": buildingLayer
+    }
+
+    const baseLayers = {
+        //"OpenTopo": OpenStreetMap_CH
+    }
+
+    function main_map_init(map, options) {
+        const trees = '{% url "treesjson" %}'
+        $.getJSON(trees, function (data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(treesLayer);
+        });
+
+        const swimmingpools = '{% url "swimmingpoolsjson" %}'
+        $.getJSON(swimmingpools, function (data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(swimmingpoolLayer);
+        });
+
+        const locations = '{% url "locationsjson" %}'
+        $.getJSON(locations, function (data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(locationsLayer);
+        });
+
+        const buildings = '{% url "buildingsjson" %}'
+        $.getJSON(buildings, function(data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(buildingLayer);
+        });
+
+        const campingareas = '{% url "campingareasjson" %}'
+        $.getJSON(campingareas, function (data) {
+            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
+        });
+
+        L.control.layers(baseLayers, overlays).addTo(map);
+    }
+
+    function onEachFeature(feature, layer) {
         if (feature.properties && feature.properties.name) {
-          layer.bindPopup(feature.properties.name);
+            layer.bindPopup(feature.properties.name);
         }
-      }
-  </script>
+    }
+</script>
 </body>
