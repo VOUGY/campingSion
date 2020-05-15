@@ -41,11 +41,26 @@
         //"OpenTopo": OpenStreetMap_CH
     }
 
+    const greenIcon = new L.icon({
+        iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+
+        iconSize:     [19, 47], // size of the icon
+        iconAnchor:   [11, 47], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
     function main_map_init(map, options) {
         const trees = '{% url "treesjson" %}'
         $.getJSON(trees, function (data) {
-            L.geoJson(data, {onEachFeature: onEachFeature}).addTo(treesLayer);
-        });
+            L.geoJson(data, {
+                onEachFeature: onEachFeature,
+                pointToLayer: function(feature, latlng) {
+                    return L.marker(latlng, {
+                        icon: greenIcon
+                    })
+                }
+            }).addTo(treesLayer);
+        })
 
         const swimmingpools = '{% url "swimmingpoolsjson" %}'
         $.getJSON(swimmingpools, function (data) {
