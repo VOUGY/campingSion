@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.core.serializers import serialize
 from django.http import HttpResponse
+from django.db.models import Q
 from .models import Tree, SwimmingPool, Location, CampingArea, Building, Booking
-
+import datetime
 
 def index(request):
     return render(request, 'index.html')
@@ -21,7 +22,22 @@ def swimmingpoolsjson(request):
 
 
 def locationsjson(request):
-    locations = Location.objects.all().prefetch_related('bookings')
+    locations = Location.objects.all()
+    ser = serialize('geojson', locations, geometry_field='geom')
+    return HttpResponse(ser)
+
+
+def freelocationsjson(request):
+    today = datetime.date.today()
+    locations = Location.objects.filter(Q(bookings__isnull=True) | Q(bookings__date_start__gt=today, bookings__date_end__lt=today))
+    # locations = Location.get(1)
+    ser = serialize('geojson', locations, geometry_field='geom')
+    return HttpResponse(ser)
+
+
+def busylocationsjson(request):
+    today = datetime.date.today()
+    locations = Location.objects.filter(bookings__date_start__lt=today).filter(bookings__date_end__gt=today)
     ser = serialize('geojson', locations, geometry_field='geom')
     return HttpResponse(ser)
 
