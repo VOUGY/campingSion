@@ -8,4 +8,5 @@ urlpatterns = [
     path('/geojson/locations.json', views.locationsjson, name='locationsjson'),
     path('/geojson/campingareas.json', views.campingareasjson, name='campingareasjson'),
     path('/geojson/buildings.json', views.buildingsjson, name='buildingsjson'),
+    path('/geojson/booking.json', views.bookingjson, name='bookingjson')
 ]

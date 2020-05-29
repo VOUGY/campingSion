@@ -83,6 +83,7 @@
                 onEachFeature: onEachFeature,
                 style: style
             }).addTo(locationsLayer);
+            console.log(data);
         });
 
         const buildings = '{% url "buildingsjson" %}'

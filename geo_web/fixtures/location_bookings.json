@@ -1,0 +1,20 @@
+[
+  {
+    "model": "geo_web.location_bookings",
+    "pk": 1,
+    "fields": {
+      "id": 1,
+      "location_id" : 1,
+      "booking_id" : 1
+    }
+  },
+  {
+    "model": "geo_web.location_bookings",
+    "pk": 2,
+    "fields": {
+      "id": 2,
+      "location_id" : 2,
+      "booking_id" : 2
+    }
+  }
+]
