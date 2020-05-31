@@ -166,7 +166,7 @@
         const freelocations = '{% url "freelocationsjson" %}'
         await $.getJSON(freelocations, function (data) {
             L.geoJson(data, {
-                onEachFeature: onEachFeature,
+                onEachFeature: onEachFeatureLocation,
                 style: {
                     fillColor: "#6ab04c",
                     fillOpacity: 1,
@@ -182,7 +182,7 @@
         const busylocations = '{% url "busylocationsjson" %}'
         await $.getJSON(busylocations, function (data) {
             L.geoJson(data, {
-                onEachFeature: onEachFeature,
+                onEachFeature: onEachFeatureLocation,
                 style: {
                     fillColor: "#eb4d4b",
                     fillOpacity: 1,
@@ -223,6 +223,16 @@
         let content = '<h1>' + feature.properties.name + '</h1>'
         if (feature.properties.description)
             content += '<p>' + feature.properties.description + '</p>'
+
+        layer.bindPopup(
+            content
+        )
+    }
+
+    function onEachFeatureLocation(location, layer) {
+        const url = "{% url 'book-location' 1234 %}".replace(/1234/, location.properties.pk)
+        let content = '<h1>' + location.properties.name + '</h1>'
+        content += '<a href="' + url + '">Réserver</a>'
 
         layer.bindPopup(
             content
