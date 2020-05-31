@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.db.models import Q
-from .models import Tree, SwimmingPool, Location, CampingArea, Building, Booking
+from .models import Tree, SwimmingPool, Location, CampingArea, Building
 import datetime
 
 def index(request):
@@ -51,11 +51,5 @@ def campingareasjson(request):
 def buildingsjson(request):
     buildings = Building.objects.all()
     ser = serialize('geojson', buildings, geometry_field='geom')
-    return HttpResponse(ser)
-
-
-def bookingjson(request):
-    booking = Booking.objects.all()
-    ser = serialize('geojson', booking, geometry_field='geom')
     return HttpResponse(ser)
 

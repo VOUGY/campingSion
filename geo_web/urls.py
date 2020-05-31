@@ -10,5 +10,4 @@ urlpatterns = [
     path('/geojson/busy-locations.json', views.busylocationsjson, name='busylocationsjson'),
     path('/geojson/campingareas.json', views.campingareasjson, name='campingareasjson'),
     path('/geojson/buildings.json', views.buildingsjson, name='buildingsjson'),
-    path('/geojson/booking.json', views.bookingjson, name='bookingjson')
 ]

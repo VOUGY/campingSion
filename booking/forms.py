@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from geo_web.models import Booking
+from .models import Booking
 
 
 class BookForm(ModelForm):
