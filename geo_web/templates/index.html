@@ -136,22 +136,6 @@
             }).addTo(map);
         });
 
-        const locations = '{% url "locationsjson" %}'
-        await $.getJSON(locations, function (data) {
-            L.geoJson(data, {
-                onEachFeature: onEachFeature,
-                style: {
-                    fillColor: "#737d89",
-                    fillOpacity: 0.4,
-                    weight: 2,
-                    opacity: 1,
-                    color: 'white',
-                    dashArray: '3',
-                    zIndex: 1
-                }
-            }).addTo(map);
-        });
-
         const trees = '{% url "treesjson" %}'
         await $.getJSON(trees, function (data) {
             L.geoJson(data, {
@@ -236,9 +220,13 @@
     }
 
     function onEachFeature(feature, layer) {
-        if (feature.properties && feature.properties.name) {
-            layer.bindPopup(feature.properties.name);
-        }
+        let content = '<h1>' + feature.properties.name + '</h1>'
+        if (feature.properties.description)
+            content += '<p>' + feature.properties.description + '</p>'
+
+        layer.bindPopup(
+            content
+        )
     }
 </script>
 </body>
