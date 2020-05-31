@@ -16,7 +16,6 @@ class Booking(models.Model):
     tel_number = models.CharField(max_length=30)
     date_start = models.DateField()
     date_end = models.DateField()
-    busy = models.IntegerField()
 
 
 class Location(models.Model):
