@@ -1,0 +1,33 @@
+<head>
+    <style>
+        .leaflet-container { /* all maps */
+            width: 100%;
+            height: 100%;
+        }
+
+        #specialbigmap {
+            height: 800px;
+        }
+
+        /* Resize the "display_raw" textbox */
+        .django-leaflet-raw-textarea {
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+<h1>This is a geofeatures catalog</h1>
+<h3>Pools area</h3>
+{% if pools_areas %}
+    {{ pools_areas }}
+    <ul>
+    {% for area in pools_areas %}
+        <li>{{ area }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No pools are available.</p>
+{% endif %}
+</body>
