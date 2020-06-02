@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'leaflet',
+    'bootstrap4',
     'geo_web',
+    'booking'
     'geofeatures'
 ]
 

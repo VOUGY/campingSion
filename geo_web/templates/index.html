@@ -2,6 +2,10 @@
 <head>
     {% leaflet_js %}
     {% leaflet_css %}
+    <div id="loader" class="loader flex-center">
+        <div class="nb-spinner"></div>
+        <p>Chargement...</p>
+    </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <style>
 
@@ -19,21 +23,90 @@
             width: 100%;
         }
 
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader {
+            z-index: 1000;
+            position: fixed;
+            top: calc(50% - 75px);
+            left: calc(50% - 100px);
+            width: 200px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.8);
+            flex-direction: column;
+            border-radius: 5px;
+        }
+
+        .nb-spinner {
+            width: 75px;
+            height: 75px;
+            margin: 0;
+            background: transparent;
+            border-top: 4px solid #009688;
+            border-right: 4px solid transparent;
+            border-radius: 50%;
+            -webkit-animation: 1s spin linear infinite;
+            animation: 1s spin linear infinite;
+        }
+
+        -webkit-
+
+        @keyframes spin {
+            -webkit-from {
+                -webkit-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            -webkit-to {
+                -webkit-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
 <body>
 {% leaflet_map "piscines" callback="main_map_init" %}
 <script type="text/javascript">
+    {#const loader#}
     const treesLayer = new L.LayerGroup()
     const swimmingpoolLayer = new L.layerGroup()
-    const locationsLayer = new L.LayerGroup()
+    const freelocationsLayer = new L.LayerGroup()
+    const busylocationsLayer = new L.LayerGroup()
     const buildingLayer = new L.layerGroup()
 
     const overlays = {
         "Arbres": treesLayer,
         "Piscine": swimmingpoolLayer,
-        "Emplacement": locationsLayer,
+        "Emplacement libre": freelocationsLayer,
+        "Emplacement occupé": busylocationsLayer,
         "Batiments": buildingLayer
     }
 
@@ -43,18 +116,31 @@
 
     const greenIcon = new L.icon({
         iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
-
-        iconSize:     [19, 47], // size of the icon
-        iconAnchor:   [11, 47], // point of the icon which will correspond to marker's location
-        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        iconSize: [19, 47], // size of the icon
+        iconAnchor: [11, 47], // point of the icon which will correspond to marker's location
+        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
 
-    function main_map_init(map, options) {
-        const trees = '{% url "treesjson" %}'
-        $.getJSON(trees, function (data) {
+    async function main_map_init(map, options) {
+        const campingareas = '{% url "campingareasjson" %}'
+        await $.getJSON(campingareas, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
-                pointToLayer: function(feature, latlng) {
+                style: {
+                    fillColor: "#f6e58d",
+                    fillOpacity: 1,
+                    weight: 2,
+                    opacity: 1,
+                    color: "#f6e58d"
+                }
+            }).addTo(map);
+        });
+
+        const trees = '{% url "treesjson" %}'
+        await $.getJSON(trees, function (data) {
+            L.geoJson(data, {
+                onEachFeature: onEachFeature,
+                pointToLayer: function (feature, latlng) {
                     return L.marker(latlng, {
                         icon: greenIcon
                     })
@@ -63,7 +149,7 @@
         })
 
         const swimmingpools = '{% url "swimmingpoolsjson" %}'
-        $.getJSON(swimmingpools, function (data) {
+        await $.getJSON(swimmingpools, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
                 style: {
@@ -77,16 +163,40 @@
             }).addTo(swimmingpoolLayer);
         });
 
-        const locations = '{% url "locationsjson" %}'
-        $.getJSON(locations, function (data) {
+        const freelocations = '{% url "freelocationsjson" %}'
+        await $.getJSON(freelocations, function (data) {
             L.geoJson(data, {
-                onEachFeature: onEachFeature,
-                style: style
-            }).addTo(locationsLayer);
+                onEachFeature: onEachFeatureLocation,
+                style: {
+                    fillColor: "#6ab04c",
+                    fillOpacity: 1,
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    zIndex: 1000
+                }
+            }).addTo(freelocationsLayer);
+        });
+
+        const busylocations = '{% url "busylocationsjson" %}'
+        await $.getJSON(busylocations, function (data) {
+            L.geoJson(data, {
+                onEachFeature: onEachFeatureLocation,
+                style: {
+                    fillColor: "#eb4d4b",
+                    fillOpacity: 1,
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    zIndex: 10
+                }
+            }).addTo(busylocationsLayer);
         });
 
         const buildings = '{% url "buildingsjson" %}'
-        $.getJSON(buildings, function(data) {
+        await $.getJSON(buildings, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
                 style: {
@@ -100,45 +210,33 @@
             }).addTo(buildingLayer);
         });
 
-        const campingareas = '{% url "campingareasjson" %}'
-        $.getJSON(campingareas, function (data) {
-            L.geoJson(data, {
-                onEachFeature: onEachFeature,
-                style: {
-                    fillColor: "#f6e58d",
-                    fillOpacity: 1,
-                    weight: 2,
-                    opacity: 1,
-                    color: "#f6e58d"
-                }
-            }).addTo(map);
-        });
-
         //set active layer
-        locationsLayer.addTo(map)
+        freelocationsLayer.addTo(map)
+        busylocationsLayer.addTo(map)
 
         L.control.layers(baseLayers, overlays).addTo(map);
+
+        $("#loader").css("display", "none");
     }
 
     function onEachFeature(feature, layer) {
-        if (feature.properties && feature.properties.name) {
-            layer.bindPopup(feature.properties.name);
-        }
+        let content = '<h1>' + feature.properties.name + '</h1>'
+        if (feature.properties.description)
+            content += '<p>' + feature.properties.description + '</p>'
+
+        layer.bindPopup(
+            content
+        )
     }
 
-    function isBusy(bookings){
-        return Math.random() >= 0.4;
-    }
+    function onEachFeatureLocation(location, layer) {
+        const url = "{% url 'book-location' 1234 %}".replace(/1234/, location.properties.pk)
+        let content = '<h1>' + location.properties.name + '</h1>'
+        content += '<a href="' + url + '">Réserver</a>'
 
-    function style(feature) {
-        return {
-            fillColor: isBusy(feature.properties) ? "#6ab04c" : "#eb4d4b",
-            fillOpacity: 1,
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3'
-        };
+        layer.bindPopup(
+            content
+        )
     }
 </script>
 </body>
