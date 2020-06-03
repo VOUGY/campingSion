@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'leaflet',
     'bootstrap4',
     'geo_web',
-    'booking'
+    'booking',
     'geofeatures'
 ]
 

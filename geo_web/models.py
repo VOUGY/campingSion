@@ -28,6 +28,12 @@ class CampingArea(models.Model):
     id = models.BigIntegerField(null=True)
     name = models.CharField(max_length=100)
 
+class myCampingArea(CampingArea):
+    area = 12
+
+    class Meta:
+        proxy = True
+
 
 class Building(models.Model):
     id_0 = models.PositiveIntegerField(primary_key=True)
