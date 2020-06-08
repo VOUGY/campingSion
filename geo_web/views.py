@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.db.models import Q
-from .models import Tree, SwimmingPool, Location, CampingArea, myCampingArea, Building
-from geofeatures.area_features import get_area_object
+from .models import Tree, SwimmingPool, Location, CampingArea, Building
 import datetime
 
 def index(request):
@@ -44,14 +43,19 @@ def busylocationsjson(request):
 
 
 def campingareasjson(request):
-    campingareas = myCampingArea.objects.all()
-    print(campingareas.values())
-    for area in campingareas:
-        area.area  = get_area_object('location', area.id_0)
+    campingareas = CampingArea.objects.all()
     ser = serialize('geojson', campingareas, geometry_field='geom')
-    print(campingareas.values())
     return HttpResponse(ser)
 
+def location_area(request, id):
+    loc = Location.objects.get(id_0=id)
+    surf = ("%.0f" % loc.geom.area)
+    return render(request, 'geofeatures.html', context={'area':surf})
+
+
+# def view(request, id):
+#     location_area = Location.objects.get(id_0=id).geom.area
+#     render_template_to_response("index.html", {"location_area": location_area, …})
 
 def buildingsjson(request):
     buildings = Building.objects.all()
