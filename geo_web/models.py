@@ -1,6 +1,5 @@
 from django.contrib.gis.db import models
 
-
 class SwimmingPool(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     geom = models.MultiPolygonField(srid=3857, null=True)
@@ -28,11 +27,24 @@ class CampingArea(models.Model):
     id = models.BigIntegerField(null=True)
     name = models.CharField(max_length=100)
 
-class myCampingArea(CampingArea):
-    area = 12
+    @property
+    def add_area(self):
+        # area = ("%.0f" % object.geom.area)
+        area = 12
+        return area
 
-    class Meta:
-        proxy = True
+
+# class MyCampingArea(CampingArea):
+#     myField = models.PositiveIntegerField(null=True)
+#
+#     class Meta:
+#         proxy = True
+#
+#     def add_area(self):
+#         # area = ("%.0f" % object.geom.area)
+#         area = 12
+#         return area
+
 
 
 class Building(models.Model):
