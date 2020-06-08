@@ -18,21 +18,9 @@
 </head>
 
 <body>
-<h1>This is a geofeatures catalog</h1>
-<h3>Pools area</h3>
-{% if pools_areas %}
-    <ul>
-    {% for area in pools_areas %}
-        <li>{{ area }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No pools are available.</p>
-{% endif %}
 
-<h3>Location 1 area</h3>
-{% if area_1 %}
-    {{ area_1 }}
+{% if area %}
+   <p><b>Surface de l'emplacement</b> : {{ area }}</p>
 {% else %}
     <p>No area for location 1</p>
 {% endif %}

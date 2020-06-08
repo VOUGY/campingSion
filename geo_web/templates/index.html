@@ -121,9 +121,9 @@
         popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
     });
 
-    async function main_map_init(map, options) {
+    function main_map_init(map, options) {
         const campingareas = '{% url "campingareasjson" %}'
-        await $.getJSON(campingareas, function (data) {
+        $.getJSON(campingareas, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
                 style: {
@@ -137,7 +137,7 @@
         });
 
         const trees = '{% url "treesjson" %}'
-        await $.getJSON(trees, function (data) {
+        $.getJSON(trees, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
                 pointToLayer: function (feature, latlng) {
@@ -149,7 +149,7 @@
         })
 
         const swimmingpools = '{% url "swimmingpoolsjson" %}'
-        await $.getJSON(swimmingpools, function (data) {
+        $.getJSON(swimmingpools, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
                 style: {
@@ -164,7 +164,7 @@
         });
 
         const freelocations = '{% url "freelocationsjson" %}'
-        await $.getJSON(freelocations, function (data) {
+        $.getJSON(freelocations, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeatureLocation,
                 style: {
@@ -180,7 +180,7 @@
         });
 
         const busylocations = '{% url "busylocationsjson" %}'
-        await $.getJSON(busylocations, function (data) {
+        $.getJSON(busylocations, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeatureLocation,
                 style: {
@@ -195,8 +195,10 @@
             }).addTo(busylocationsLayer);
         });
 
+
+
         const buildings = '{% url "buildingsjson" %}'
-        await $.getJSON(buildings, function (data) {
+        $.getJSON(buildings, function (data) {
             L.geoJson(data, {
                 onEachFeature: onEachFeature,
                 style: {
@@ -230,13 +232,42 @@
     }
 
     function onEachFeatureLocation(location, layer) {
-        const url = "{% url 'book-location' 1234 %}".replace(/1234/, location.properties.pk)
-        let content = '<h1>' + location.properties.name + '</h1>'
-        content += '<a href="' + url + '">Réserver</a>'
+        let url = "{% url 'book-location' 1234 %}".replace(/1234/, location.properties.pk)
 
-        layer.bindPopup(
-            content
-        )
+        layer.on('click', function(event, content) {
+            content = '<h1>' + location.properties.name + '</h1>'
+            content += '<div>' + getExtraInfo(location.properties.pk) + '</div>'
+            content += '<a href="' + url + '">Réserver</a>'
+            this.bindPopup(content
+            )
+        })
+    }
+
+    function addContent(location, layer, content, id){
+        content += '<div>' + getExtraInfo(location.properties.pk) + '</div>'
+        return content
+    }
+
+
+{#    function onEachFeatureLocation(feature, layer) {#}
+{#    layer.on(#}
+{#        'click', function (e) {#}
+{#            $.getJSON('api/locations/' + feature.properties.pk, function (data) {#}
+{#                $('#locationModalTitle').text(data.name)#}
+{#                $('#area').text(data.area)#}
+{#                $('#link').attr("href", data.href)#}
+{#                $('#locationModal').modal('show')#}
+{#            });#}
+{#        }#}
+{#    );#}
+
+
+    function getExtraInfo(id){
+        var xmlHttp = new XMLHttpRequest();
+        const url = "{% url 'extrainfo' 1234 %}".replace(/1234/, id)
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
     }
 </script>
 </body>
