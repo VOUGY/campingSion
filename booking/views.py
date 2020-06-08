@@ -14,7 +14,7 @@ def book(request, location_id=None):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            form.save()
+            form.save(location_id=location_id)
 
             return HttpResponseRedirect('/thanks')
 
