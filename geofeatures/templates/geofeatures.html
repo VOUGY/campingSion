@@ -1,27 +1,42 @@
-<head>
-    <style>
-        .leaflet-container { /* all maps */
-            width: 100%;
-            height: 100%;
-        }
+{#<head>#}
+{#    <style>#}
+{#        .leaflet-container { /* all maps */#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#        }#}
+{##}
+{#        #specialbigmap {#}
+{#            height: 800px;#}
+{#        }#}
+{##}
+{#        /* Resize the "display_raw" textbox */#}
+{#        .django-leaflet-raw-textarea {#}
+{#            width: 100%;#}
+{#        }#}
+{##}
+{#    </style>#}
+{#</head>#}
 
-        #specialbigmap {
-            height: 800px;
-        }
-
-        /* Resize the "display_raw" textbox */
-        .django-leaflet-raw-textarea {
-            width: 100%;
-        }
-
-    </style>
-</head>
-
-<body>
+{#<body>#}
 
 {% if area %}
-   <p><b>Surface de l'emplacement</b> : {{ area }}</p>
+   <p><b>Surface de l'emplacement</b> : {{ area }} m<sup>2</sup></p>
 {% else %}
-    <p>No area for location 1</p>
+    <p>La surface de cet emplacement n'est pas connue</p>
 {% endif %}
-</body>
+{% if distRest %}
+   <p><b>Distance du restaurant</b> : {{ distRest }} m</p>
+{% else %}
+    <p>La distance de cet emplacement au restaurant n'est pas connue</p>
+{% endif %}
+{% if swimPoolDist %}
+   <p><b>Distance de la piscine la plus proche</b> : {{ swimPoolDist }} m</p>
+{% else %}
+    <p>La distance de cet emplacement à la piscine n'est pas connue</p>
+{% endif %}
+{% if anyTree %}
+   <p><b>Arbre sur l'emplacement</b> : {{ anyTree }}</p>
+{% else %}
+    <p>Il n'y a pas d'arbre sur cet emplacement</p>
+{% endif %}
+{#</body>#}

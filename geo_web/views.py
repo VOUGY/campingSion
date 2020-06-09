@@ -3,6 +3,7 @@ from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.db.models import Q
 from .models import Tree, SwimmingPool, Location, CampingArea, Building
+from geofeatures.area_features import get_area_object, get_dist_rest, get_dist_swimPool, is_any_tree
 import datetime
 
 def index(request):
@@ -47,10 +48,18 @@ def campingareasjson(request):
     ser = serialize('geojson', campingareas, geometry_field='geom')
     return HttpResponse(ser)
 
-def location_area(request, id):
-    loc = Location.objects.get(id_0=id)
-    surf = ("%.0f" % loc.geom.area)
-    return render(request, 'geofeatures.html', context={'area':surf})
+def geofeatures(request, id):
+    surf = get_area_object('location', id)
+    distRest = get_dist_rest('location', id)
+    swimPoolDist = get_dist_swimPool('location', id)
+    anyTree = is_any_tree('location', id)
+    context = {
+        'area': surf,
+        'distRest': distRest,
+        'swimPoolDist':swimPoolDist,
+        'anyTree':anyTree
+    }
+    return render(request, 'geofeatures.html', context)
 
 
 # def view(request, id):
