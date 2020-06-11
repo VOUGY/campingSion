@@ -3,7 +3,8 @@ from django.core.serializers import serialize
 from django.http import HttpResponse
 from django.db.models import Q
 from .models import Tree, SwimmingPool, Location, CampingArea, Building
-from geofeatures.area_features import get_area_object, get_dist_rest, get_dist_swimPool, is_any_tree
+from geofeatures.area_features import get_area_object, get_dist_rest, \
+    get_dist_swimPool, is_any_tree, get_dist_shop
 import datetime
 
 def index(request):
@@ -53,11 +54,13 @@ def geofeatures(request, id):
     distRest = get_dist_rest('location', id)
     swimPoolDist = get_dist_swimPool('location', id)
     anyTree = is_any_tree('location', id)
+    distShop = get_dist_shop('location', id)
     context = {
         'area': surf,
         'distRest': distRest,
         'swimPoolDist':swimPoolDist,
-        'anyTree':anyTree
+        'anyTree':anyTree,
+        'distShop':distShop
     }
     return render(request, 'geofeatures.html', context)
 
