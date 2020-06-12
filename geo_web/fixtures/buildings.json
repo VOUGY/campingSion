@@ -6,7 +6,7 @@
     "geom": "SRID=3857;MULTIPOLYGON (((814473.6810835929 5814376.208785413, 814491.5195589174 5814377.328689693, 814492.3994837091 5814360.61011865, 814474.7209947106 5814360.050166509, 814473.6810835929 5814376.208785413)))",
     "id": 2,
     "name": "Toilettes EST",
-    "description": "Toilettes homme et femme. De nombreux lavabo a disposition"
+    "description": "Toilettes homme et femme. De nombreux lavabos à disposition"
   }
 },
 {
@@ -16,7 +16,7 @@
     "geom": "SRID=3857;MULTIPOLYGON (((814656.3054744699 5814325.493120142, 814701.7415909912 5814329.172805635, 814704.1413858779 5814306.454747375, 814657.9053377276 5814304.054952488, 814656.3054744699 5814325.493120142)))",
     "id": 3,
      "name": "La superette",
-    "description": "Petite épiceries pour tout vos plats. Divers produit frais et de la régions"
+    "description": "Petite épicerie pour tout vos plats. Divers produits frais de la régions"
   }
 },
 {
@@ -36,7 +36,7 @@
     "geom": "SRID=3857;MULTIPOLYGON (((814285.7771439657 5814243.900093994, 814304.1755714304 5814244.860011949, 814304.3355577561 5814227.581488765, 814286.257102943 5814226.941543462, 814285.7771439657 5814243.900093994)))",
     "id": 5,
      "name": "Toilettes OUEST",
-    "description": "Toilettes homme et femme. De nombreux lavabo a disposition"
+    "description": "Toilettes homme et femme. De nombreux lavabos a disposition"
   }
 },
 {
@@ -46,7 +46,7 @@
     "geom": "SRID=3857;MULTIPOLYGON (((814145.949095235 5814320.853516694, 814172.0268663369 5814329.172805634, 814176.346497133 5814313.174173056, 814167.8672218667 5814310.614391844, 814170.2670167534 5814301.655157601, 814139.3896558781 5814291.256046425, 814136.9898609914 5814301.015212297, 814150.7486850084 5814306.134774722, 814145.949095235 5814320.853516694)))",
     "id": 6,
      "name": "Restaurant à l'alpage",
-    "description": "Divers plats type du Valais"
+    "description": "Divers plats typique du Valais"
   }
 },
 {

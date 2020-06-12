@@ -5,7 +5,7 @@
   "fields": {
     "geom": "SRID=3857;MULTIPOLYGON (((814203.7355498417 5814290.096901962, 814225.4369084806 5814288.526408902, 814224.4375038064 5814277.961273775, 814202.5933730712 5814280.531171509, 814203.7355498417 5814290.096901962)))",
     "name": "Les bains",
-    "description": "Espace d'édente. Prennez un cocktail et allongez-vous danns un des bains à remout de la piscine"
+    "description": "Espace détente. Prenez un cocktail et allongez-vous dans un des bains à remous de la piscine"
   }
 },
 {
@@ -14,7 +14,7 @@
   "fields": {
     "geom": "SRID=3857;MULTIPOLYGON (((814770.6835442849 5814271.393757344, 814807.6615172289 5814274.391971366, 814812.3729964071 5814214.28491882, 814775.2522513667 5814211.715021087, 814770.6835442849 5814271.393757344)))",
     "name": "Piscine olympique",
-    "description": "Venez faire des longueurs dans notre piscine olympinque"
+    "description": "Venez faire des longueurs dans notre piscine olympique"
   }
 },
 {
