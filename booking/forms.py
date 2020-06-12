@@ -6,7 +6,7 @@ from django import forms
 
 class BookForm(ModelForm):
 
-    location_id = forms.IntegerField()
+    location_id = forms.IntegerField(widget=forms.HiddenInput)
 
     class Meta:
         model = Booking

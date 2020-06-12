@@ -20,7 +20,7 @@ def book(request, location_id=None):
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = BookForm()
+        form = BookForm(initial={'location_id': location_id})
 
     return render(request, 'book.html', {'form': form, 'location_id': location_id})
 
